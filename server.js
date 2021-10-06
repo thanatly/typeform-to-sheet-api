@@ -68,20 +68,36 @@ app.get('/responses', isLoggedIn, function(req, res){
     .then(data =>res.end(JSON.stringify(data)))
 })
 
-//TODO
-//delete through TypeformAPI
-//overwrite to spreadsheet
-//app-script not working: cant locate current row by response_token
+
+function removeTypeformResponse (responseToken) {
+    const params = new URLSearchParams();
+    params.append('included_response_ids', responseToken);
+    axios.delete(TYPEFORM_BASE_URL + `/${DEFAULT_FORM_ID}/responses`, {
+        Authorization: `Bearer ${req.user.access_token}`
+    }) 
+}
+
+function removeGSheetResponse (responseToken) {
+    // THIS IS NOT GOOD - same reason
+    axios.get(GOOGLE_SCRIPT_URL + `?action=delete&table=sheet1&id=${tf_response_token}`)
+}
+
+app.delete("/responses/:id", isLoggedIn, function(req, res) {
+    const tf_response_token = req.params.id;
+    if (responseToken) {
+      removeTypeformResponse(tf_response_token);
+      removeGSheetResponse(tf_response_token);
+      res.send("ok");
+    } else {
+      res.status(400).send("record not found");
+    }
+  });
+
+/* Lesson learned. DO NOT do this - delete with a GET request
 app.get('/responses/delete/:id', isLoggedIn, async (req, res) => {
     const tf_response_token = req.params.id
 
     try {
-      /*  Error! 
-      isAxiosError: true,
-      data: {
-      code: 'INSUFFICIENT_PERMISSIONS',
-      description: 'not enough permissions to complete the action''
-      */
         await axios.all([
             axios.delete(`https://api.typeform.com/forms/${DEFAULT_FORM_ID}/responses?included_response_ids=${tf_response_token}`,{
                 headers: {
@@ -98,6 +114,7 @@ app.get('/responses/delete/:id', isLoggedIn, async (req, res) => {
         console.log(err)
     }
 })
+*/
 
 // Create a server to listen at port 5000
 var server = app.listen(5000, function(){
