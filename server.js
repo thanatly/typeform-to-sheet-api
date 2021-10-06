@@ -12,6 +12,7 @@ dotenv.config()
 
 const GOOGLE_SCRIPT_URL = process.env.GOOGLE_SCRIPT_URL;
 const DEFAULT_FORM_ID = process.env.DEFAULT_FORM_ID;
+const TYPEFORM_API_BASE_URL = process.env.TYPEFORM_API_BASE_URL;
 
 Auth()
 
@@ -59,7 +60,7 @@ app.get('/callback', passport.authenticate('oauth2', { failureRedirect: '/failed
 );
 
 app.get('/responses', isLoggedIn, function(req, res){
-    fetch(`https://api.typeform.com/forms/${DEFAULT_FORM_ID}/responses`,{
+    fetch(TYPEFORM_BASE_URL + `${DEFAULT_FORM_ID}/responses`,{
         headers: {
             Authorization: `Bearer ${req.user.access_token}`,
         }
@@ -70,11 +71,12 @@ app.get('/responses', isLoggedIn, function(req, res){
 
 
 function removeTypeformResponse (responseToken) {
-    const params = new URLSearchParams();
-    params.append('included_response_ids', responseToken);
-    axios.delete(TYPEFORM_BASE_URL + `/${DEFAULT_FORM_ID}/responses`, {
+    axios.delete(TYPEFORM_BASE_URL + `${DEFAULT_FORM_ID}/responses?included_response_ids=${responseToken}`, {
         Authorization: `Bearer ${req.user.access_token}`
-    }) 
+    })
+    .catch(error => {
+        console.log('There was an error!', error);
+    })
 }
 
 function removeGSheetResponse (responseToken) {
@@ -84,9 +86,9 @@ function removeGSheetResponse (responseToken) {
 
 app.delete("/responses/:id", isLoggedIn, function(req, res) {
     const tf_response_token = req.params.id;
-    if (responseToken) {
-      removeTypeformResponse(tf_response_token);
-      removeGSheetResponse(tf_response_token);
+    if (tf_response_token) {
+      removeTypeformResponse(tf_response_token); //NOT WORKING
+      //removeGSheetResponse(tf_response_token);
       res.send("ok");
     } else {
       res.status(400).send("record not found");
