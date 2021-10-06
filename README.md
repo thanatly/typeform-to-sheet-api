@@ -1,9 +1,10 @@
 # typeform-to-sheet-api
-> A REST API to sync delete action on typeform and Googlesheet 
+> A REST API to sync delete action on Typeform and Googlesheet 
 ## Features
 This project makes it easy to:
-* XXX
-* XXX
+* Delete answer entry on both Typeform and Googlesheet with one request 
+* Fetch answers from Typeform survey through API endpoint
+* Setup for Typeform autentication in a seperate module
 ## Requirements
 For development, you will only need Node.js and a node global package, Yarn, installed in your environement.
 ### Node
@@ -56,8 +57,8 @@ If you'd like to contribute, please fork the repository and make changes as you'
 - [Sample Typefrom API project by Typeform](https://github.com/Typeform/results-example)
 - [Google App Script CRUD by Richard Blondet](https://gist.github.com/richardblondet/ce87a397ef669d4d25dd21ea02b9dda1)
 ## Documentation
--[Typeform's APIs](https://developer.typeform.com)
--[Apps Script | Google Developers](https://developers.google.com/apps-script)
+- [Typeform's APIs](https://developer.typeform.com)
+- [Apps Script | Google Developers](https://developers.google.com/apps-script)
 ## Licensing
 This project is licensed under MIT license. This license does not require you to take the license with you to your project.
 
