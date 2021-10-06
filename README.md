@@ -33,7 +33,7 @@ Currently this project provides the following endpoints.
 |Endpoint|Description|
 |--|--|
 |`GET /responses`|Get all answers submitted through your Typeform|
-|`GET /responses/delete/:id`|Delete an answer entry with a specified tokenId on Typeform and Googlesheet. But I realize this is indeed very dangerous. As in [the Spider of Doom](https://news.ycombinator.com/item?id=3103013), if a user can bypass security check by disabling cookies 😱 |
+|`GET /responses/delete/:id`|DO NOT use this to delete the answer from Typeform. As in [the Spider of Doom](https://news.ycombinator.com/item?id=3103013), if a user can bypass security check by disabling cookies 😱 |
 |`DELETE /responses/:id`|Delete an answer entry with a specified tokenId on Typeform and Googlesheet (in making) |
 
 
