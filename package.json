@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "@typeform/api-client": "^1.7.0",
+    "axios": "^0.21.4",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "node-fetch": "^3.0.0",
+    "passport": "^0.5.0",
+    "passport-oauth2": "^1.6.1"
+  },
+  "type": "module"
+}
