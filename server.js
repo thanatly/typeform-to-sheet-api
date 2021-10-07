@@ -69,6 +69,17 @@ app.get('/responses', isLoggedIn, function(req, res){
     .then(data =>res.end(JSON.stringify(data)))
 })
 
+app.get('/responses/:id', isLoggedIn, function(req, res){
+    const tf_response_token = req.params.id;
+    console.log("getting" + tf_response_token)
+    fetch(TYPEFORM_API_BASE_URL + `/forms/${DEFAULT_FORM_ID}/responses?included_response_ids=${tf_response_token}`,{
+        headers: {
+            Authorization: `Bearer ${req.user.access_token}`,
+        }
+    })
+    .then(response => response.json())
+    .then(data =>res.end(JSON.stringify(data)))
+})
 
 function removeTypeformResponse (responseToken) {
     axios.delete(TYPEFORM_API_BASE_URL + `${DEFAULT_FORM_ID}/responses?included_response_ids=${responseToken}`, {
