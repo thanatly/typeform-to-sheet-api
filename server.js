@@ -60,7 +60,7 @@ app.get('/callback', passport.authenticate('oauth2', { failureRedirect: '/failed
 );
 
 app.get('/responses', isLoggedIn, function(req, res){
-    fetch(TYPEFORM_BASE_URL + `${DEFAULT_FORM_ID}/responses`,{
+    fetch(TYPEFORM_API_BASE_URL + `/forms/${DEFAULT_FORM_ID}/responses`,{
         headers: {
             Authorization: `Bearer ${req.user.access_token}`,
         }
@@ -71,7 +71,7 @@ app.get('/responses', isLoggedIn, function(req, res){
 
 
 function removeTypeformResponse (responseToken) {
-    axios.delete(TYPEFORM_BASE_URL + `${DEFAULT_FORM_ID}/responses?included_response_ids=${responseToken}`, {
+    axios.delete(TYPEFORM_API_BASE_URL + `${DEFAULT_FORM_ID}/responses?included_response_ids=${responseToken}`, {
         Authorization: `Bearer ${req.user.access_token}`
     })
     .catch(error => {
@@ -87,11 +87,12 @@ function removeGSheetResponse (responseToken) {
 app.delete("/responses/:id", isLoggedIn, function(req, res) {
     const tf_response_token = req.params.id;
     if (tf_response_token) {
-      removeTypeformResponse(tf_response_token); //NOT WORKING
-      //removeGSheetResponse(tf_response_token);
-      res.send("ok");
+        console.log("deleting" + tf_response_token)
+        removeTypeformResponse(tf_response_token); //NOT WORKING
+        //removeGSheetResponse(tf_response_token);
+        res.status(200).send("ok");
     } else {
-      res.status(400).send("record not found");
+        res.status(400).send("record not found");
     }
   });
 
